@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pour Mimi</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Dancing+Script:wght@600&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#1b1220; --card:#fff8f2; --ink:#3a2a33; --rose:#d9718a; --rose-d:#b24e69; --gold:#c9a25b; --muted:#8a7480;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{min-height:100%}
+  body{
+    font-family:'Inter',sans-serif;color:var(--ink);
+    background:radial-gradient(ellipse at top,#3a2236 0%,var(--bg) 60%);
+    min-height:100vh;overflow-x:hidden;
+  }
+  #stars{position:fixed;inset:0;pointer-events:none;z-index:0}
+  main{position:relative;z-index:1;max-width:560px;margin:0 auto;padding:48px 20px 80px}
+  .screen{display:none;animation:fade .9s ease both}
+  .screen.on{display:block}
+  @keyframes fade{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+
+  .mono{font-family:'Dancing Script',cursive;color:var(--gold);font-size:46px;text-align:center;letter-spacing:1px}
+  .mono small{display:block;font-family:'Inter';font-size:11px;letter-spacing:4px;color:#a48a96;text-transform:uppercase;margin-top:4px}
+
+  /* Envelope */
+  .env-wrap{display:flex;flex-direction:column;align-items:center;margin-top:40px}
+  .envelope{position:relative;width:280px;height:180px;cursor:pointer;transition:transform .3s}
+  .envelope:hover{transform:translateY(-4px)}
+  .envelope .body{position:absolute;inset:0;background:#f3e3d6;border-radius:6px;box-shadow:0 20px 50px rgba(0,0,0,.45)}
+  .envelope .flap{position:absolute;top:0;left:0;width:0;height:0;border-left:140px solid transparent;border-right:140px solid transparent;border-top:100px solid #e8cfbd;transform-origin:top;transition:transform .7s ease;z-index:3}
+  .envelope.open .flap{transform:rotateX(180deg);z-index:0}
+  .envelope .seal{position:absolute;left:50%;top:84px;transform:translate(-50%,0);width:46px;height:46px;border-radius:50%;background:var(--rose-d);color:#fff;display:grid;place-items:center;font-family:'Dancing Script';font-size:20px;z-index:4;box-shadow:0 3px 8px rgba(0,0,0,.3);transition:opacity .4s}
+  .envelope.open .seal{opacity:0}
+  .hint{color:#c9b3bf;margin-top:26px;font-size:14px;text-align:center}
+  .hint b{color:#fff;font-weight:500}
+
+  /* Card */
+  .card{background:var(--card);border-radius:18px;padding:32px 26px;box-shadow:0 25px 60px rgba(0,0,0,.4);margin-top:28px}
+  .card h2{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:30px;line-height:1.15;margin-bottom:18px;color:var(--rose-d)}
+  .card p{font-family:'Cormorant Garamond',serif;font-size:21px;line-height:1.5;margin-bottom:14px}
+  .card p.small{font-family:'Inter';font-size:14px;color:var(--muted);line-height:1.5}
+  .sign{font-family:'Dancing Script',cursive;font-size:30px;color:var(--rose-d);text-align:right;margin-top:10px}
+
+  .btn{display:block;width:100%;border:0;border-radius:999px;padding:15px 20px;font:500 16px 'Inter';cursor:pointer;margin-top:12px;transition:transform .15s,background .2s}
+  .btn:active{transform:scale(.97)}
+  .btn.main{background:var(--rose);color:#fff}
+  .btn.main:hover{background:var(--rose-d)}
+  .btn.ghost{background:transparent;color:var(--ink);border:1.5px solid #e2cfd6}
+  .btn.light{background:transparent;color:#e6d3dc;border:1.5px solid #5a4050}
+
+  .zzz{font-family:'Cormorant Garamond';font-style:italic;color:var(--muted);text-align:center;font-size:18px;margin:6px 0 18px}
+
+  textarea{width:100%;min-height:120px;border:1.5px solid #ead7de;border-radius:12px;padding:14px;font:18px 'Cormorant Garamond',serif;color:var(--ink);background:#fff;resize:vertical;outline:none}
+  textarea:focus{border-color:var(--rose)}
+  .addr{font-size:13px;color:var(--muted);text-align:center;margin-top:10px}
+  .addr code{background:#f4e6ea;padding:2px 6px;border-radius:5px;color:var(--ink)}
+  .toast{font-size:14px;text-align:center;color:var(--rose-d);min-height:20px;margin-top:8px}
+
+  /* Coupon */
+  .coupon{position:relative;border:2px dashed var(--gold);border-radius:14px;padding:24px 20px;background:linear-gradient(135deg,#fff6ec,#fdeef1);text-align:center;margin:8px 0 18px}
+  .coupon .lbl{font-size:11px;letter-spacing:4px;color:var(--gold);text-transform:uppercase}
+  .coupon h3{font-family:'Cormorant Garamond';font-size:28px;margin:8px 0;color:var(--ink)}
+  .coupon ul{list-style:none;font-family:'Cormorant Garamond';font-size:19px;line-height:1.7}
+  .coupon .valid{font-size:12px;color:var(--muted);margin-top:10px}
+
+  .promise{display:flex;gap:12px;align-items:flex-start;margin-bottom:14px}
+  .promise .n{flex:0 0 30px;height:30px;border-radius:50%;background:#f6dde4;color:var(--rose-d);display:grid;place-items:center;font-weight:500;font-size:14px}
+  .promise p{margin:0;font-size:19px}
+
+  .end{text-align:center;color:#f3e3ea;margin-top:40px}
+  .end .big{font-family:'Dancing Script';font-size:52px;color:var(--rose)}
+  .end p{font-family:'Cormorant Garamond';font-size:22px;line-height:1.5;margin-top:10px}
+  .heart{position:fixed;bottom:-30px;font-size:22px;pointer-events:none;z-index:5;animation:rise linear forwards}
+  @keyframes rise{to{transform:translateY(-110vh) rotate(25deg);opacity:0}}
+  .dots{display:flex;justify-content:center;gap:7px;margin-top:22px}
+  .dots span{width:7px;height:7px;border-radius:50%;background:#5a4050;transition:background .3s}
+  .dots span.on{background:var(--rose)}
+</style>
+</head>
+<body>
+<canvas id="stars"></canvas>
+<main>
+  <div class="mono">Mi<span style="color:var(--rose)">♥</span>Ne<small>pour toi, Milay</small></div>
+
+  <!-- 0 · Enveloppe -->
+  <section class="screen on" id="s0">
+    <div class="env-wrap">
+      <div class="envelope" id="env">
+        <div class="body"></div><div class="flap"></div><div class="seal">E</div>
+      </div>
+      <p class="hint">Mimi, j'ai quelque chose à te dire.<br><b>Touche l'enveloppe.</b></p>
+    </div>
+  </section>
+
+  <!-- 1 · Lettre -->
+  <section class="screen" id="s1">
+    <div class="card">
+      <h2>Hier après-midi, on sortait tous les deux du travail…</h2>
+      <p>On était au téléphone, on se racontait notre journée. Et tu avais des choses importantes à me dire.</p>
+      <p>Et moi, au lieu de te dire simplement « je suis épuisé, je peux te rappeler un peu plus tard ? », j'ai fait semblant d'être là. Je te répétais « je t'écoute »… alors que je m'endormais.</p>
+      <p>Et quand tu m'as posé ta question, je ne l'ai même pas entendue.</p>
+      <p>Tu méritais toute mon attention. Tu n'as eu que la moitié de moi, et en plus je t'ai fait croire le contraire. C'est ça, le vrai problème. Pas la fatigue : le fait de ne pas avoir été honnête avec toi.</p>
+      <p><b>Je suis désolé, Mimi.</b></p>
+      <div class="sign">Eldine</div>
+      <button class="btn main" data-go="2">Continuer</button>
+    </div>
+  </section>
+
+  <!-- 2 · La question -->
+  <section class="screen" id="s2">
+    <div class="card">
+      <h2>Ta question…</h2>
+      <p>Je ne l'ai pas entendue. Et ça me travaille depuis.</p>
+      <p>Si tu veux bien, repose-la-moi ici. Je te promets d'y répondre en entier. Et si tu veux bien me redire ce que tu me racontais, cette fois je serai vraiment là pour l'entendre.</p>
+      <textarea id="q" placeholder="Écris ta question ici…"></textarea>
+      <button class="btn main" id="send">M'envoyer ta question</button>
+      <button class="btn ghost" id="copy">Copier le texte</button>
+      <div class="toast" id="toast"></div>
+      <p class="addr">Si le bouton ne s'ouvre pas, envoie-la-moi à <code>eldine.kalame1@gmail.com</code> ou par message 💬</p>
+      <button class="btn ghost" data-go="3">Plus tard — voir la suite</button>
+    </div>
+  </section>
+
+  <!-- 3 · Le bon -->
+  <section class="screen" id="s3">
+    <div class="card">
+      <h2>Une petite surprise</h2>
+      <div class="coupon">
+        <div class="lbl">Bon pour</div>
+        <h3>Un rendez-vous rien que pour toi</h3>
+        <ul>
+          <li>📹 Un appel vidéo, toi et moi</li>
+          <li>⏰ À l'heure que tu choisis, quand je suis bien reposé</li>
+          <li>📵 Pas de télé, pas de notifications, rien d'autre</li>
+          <li>👂 Tu me racontes tout, et cette fois je t'écoute pour de vrai</li>
+        </ul>
+        <div class="valid">Valable quand tu veux · Sans date d'expiration · Non négociable 😌</div>
+      </div>
+      <p class="small">La Réunion ou Mayotte, la distance ne change rien : quand on se parle, je dois être là. Tu choisis le jour.</p>
+      <button class="btn main" data-go="4">Et une dernière chose</button>
+    </div>
+  </section>
+
+  <!-- 4 · Promesses -->
+  <section class="screen" id="s4">
+    <div class="card">
+      <h2>Ce que je te promets</h2>
+      <div class="promise"><div class="n">1</div><p>Quand je suis fatigué, je te le dirai. Simplement, honnêtement.</p></div>
+      <div class="promise"><div class="n">2</div><p>Quand c'est important pour toi, on choisira un moment où je peux vraiment être présent.</p></div>
+      <div class="promise"><div class="n">3</div><p>Je ne ferai plus semblant d'écouter. Avec toi, c'est tout ou c'est un peu plus tard, mais jamais à moitié.</p></div>
+      <p class="zzz">L'année prochaine, à Mayotte, tu deviens ma femme. D'ici là, nos appels sont tout ce qu'on a — et tu mérites que j'y sois vraiment.</p>
+      <button class="btn main" id="yes">Je te pardonne ❤️</button>
+      <button class="btn ghost" id="time">J'ai encore besoin d'un peu de temps</button>
+    </div>
+  </section>
+
+  <!-- 5a · Pardon -->
+  <section class="screen" id="s5a">
+    <div class="end">
+      <div class="big">Merci, mon cœur</div>
+      <p>Je t'appelle ce soir.<br>Cette fois, je suis tout à toi.</p>
+      <p style="margin-top:22px;font-size:18px;color:#c9b3bf">N'oublie pas ton bon pour une soirée 😉</p>
+    </div>
+  </section>
+
+  <!-- 5b · Temps -->
+  <section class="screen" id="s5b">
+    <div class="end">
+      <div class="big">Je comprends</div>
+      <p>Prends le temps qu'il te faut.<br>Je ne vais nulle part.</p>
+      <p>Quand tu seras prête, je serai là —<br>bien réveillé, et à l'écoute pour de vrai.</p>
+      <button class="btn light" style="max-width:260px;margin:28px auto 0" data-go="0">Relire depuis le début</button>
+    </div>
+  </section>
+
+  <div class="dots" id="dots"><span class="on"></span><span></span><span></span><span></span><span></span></div>
+</main>
+
+<script>
+const screens=['s0','s1','s2','s3','s4'];
+function show(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('on'));
+  document.getElementById(id).classList.add('on');
+  const i=screens.indexOf(id);
+  document.querySelectorAll('#dots span').forEach((d,k)=>d.classList.toggle('on',i<0?true:k<=i));
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+document.querySelectorAll('[data-go]').forEach(b=>b.addEventListener('click',()=>{
+  const g=b.dataset.go; if(g==='0'){document.getElementById('env').classList.remove('open')} show('s'+g);
+}));
+document.getElementById('env').addEventListener('click',e=>{
+  e.currentTarget.classList.add('open'); setTimeout(()=>show('s1'),900);
+});
+
+const toast=m=>{const t=document.getElementById('toast');t.textContent=m;setTimeout(()=>t.textContent='',3500)};
+document.getElementById('send').addEventListener('click',()=>{
+  const q=document.getElementById('q').value.trim();
+  if(!q){toast('Écris d\'abord ta question 🙂');return}
+  const href='mailto:eldine.kalame1@gmail.com?subject='+encodeURIComponent('Ma question')+'&body='+encodeURIComponent(q);
+  const a=document.createElement('a');a.href=href;a.target='_blank';a.rel='noopener';document.body.appendChild(a);a.click();a.remove();
+  toast('Ta messagerie devrait s\'ouvrir. Sinon, copie le texte et envoie-le-moi.');
+});
+document.getElementById('copy').addEventListener('click',async()=>{
+  const q=document.getElementById('q').value.trim();
+  if(!q){toast('Écris d\'abord ta question 🙂');return}
+  try{await navigator.clipboard.writeText(q);toast('Copié ! Tu peux me l\'envoyer par message.')}
+  catch(e){toast('Copie impossible ici — sélectionne le texte à la main.')}
+});
+
+function hearts(n){
+  for(let i=0;i<n;i++){setTimeout(()=>{
+    const h=document.createElement('div');h.className='heart';
+    h.textContent=['❤️','💗','💕','🤍'][Math.floor(Math.random()*4)];
+    h.style.left=Math.random()*100+'vw';h.style.fontSize=(16+Math.random()*22)+'px';
+    h.style.animationDuration=(4+Math.random()*4)+'s';
+    document.body.appendChild(h);setTimeout(()=>h.remove(),8500);
+  },i*120)}
+}
+document.getElementById('yes').addEventListener('click',()=>{show('s5a');hearts(40)});
+document.getElementById('time').addEventListener('click',()=>show('s5b'));
+
+// étoiles
+const c=document.getElementById('stars'),x=c.getContext('2d');let st=[];
+function size(){c.width=innerWidth;c.height=innerHeight;st=Array.from({length:90},()=>({x:Math.random()*c.width,y:Math.random()*c.height,r:Math.random()*1.3+.2,p:Math.random()*6}))}
+size();addEventListener('resize',size);
+(function loop(t){x.clearRect(0,0,c.width,c.height);
+  st.forEach(s=>{x.globalAlpha=.35+.35*Math.sin(t/900+s.p);x.fillStyle='#fff';x.beginPath();x.arc(s.x,s.y,s.r,0,7);x.fill()});
+  requestAnimationFrame(loop)})(0);
+</script>
+</body>
+</html>
