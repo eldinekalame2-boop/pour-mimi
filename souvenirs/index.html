@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nous</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Dancing+Script:wght@600&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#120c15;--rose:#d9718a;--gold:#c9a25b;--txt:#f3e6ec;--muted:#a48a96}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:radial-gradient(ellipse at top,#2c1a2a 0%,var(--bg) 55%);color:var(--txt);font-family:'Inter',sans-serif;min-height:100vh}
+  main{max-width:520px;margin:0 auto;padding:0 18px 90px}
+  .intro{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;gap:18px}
+  .mono{font-family:'Dancing Script',cursive;color:var(--gold);font-size:52px}
+  .mono span{color:var(--rose)}
+  .intro p{font-family:'Cormorant Garamond',serif;font-size:24px;line-height:1.45;max-width:420px;opacity:0;animation:in 1.4s ease forwards}
+  .intro p:nth-of-type(2){animation-delay:1.2s}
+  .intro p:nth-of-type(3){animation-delay:2.4s}
+  .scroll{margin-top:30px;font-size:13px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);opacity:0;animation:in 1s 3.4s forwards,bob 2s 4.4s infinite}
+  @keyframes in{to{opacity:1}}
+  @keyframes bob{50%{transform:translateY(6px)}}
+
+  .chap{margin:70px 0 0;opacity:0;transform:translateY(24px);transition:opacity 1s,transform 1s}
+  .chap.vis{opacity:1;transform:none}
+  .num{font-size:12px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);text-align:center}
+  .chap h2{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:30px;text-align:center;margin:6px 0 18px}
+  .vid{position:relative;border-radius:20px;overflow:hidden;background:#000;box-shadow:0 25px 60px rgba(0,0,0,.55)}
+  .vid video{display:block;width:100%;max-height:78vh;object-fit:contain;background:#000}
+  .play{position:absolute;inset:0;display:grid;place-items:center;background:rgba(0,0,0,.25);cursor:pointer;transition:opacity .3s}
+  .play span{width:74px;height:74px;border-radius:50%;background:rgba(255,248,242,.92);display:grid;place-items:center;box-shadow:0 8px 25px rgba(0,0,0,.4)}
+  .play span::after{content:"";border-left:22px solid var(--rose);border-top:13px solid transparent;border-bottom:13px solid transparent;margin-left:6px}
+  .play.off{opacity:0;pointer-events:none}
+  .chap .cap{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:20px;text-align:center;color:#dcc6d0;margin-top:16px;line-height:1.4}
+
+  .end{min-height:90vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;gap:16px;margin-top:60px}
+  .end p{font-family:'Cormorant Garamond',serif;font-size:24px;line-height:1.5;max-width:420px}
+  .end .sign{font-family:'Dancing Script',cursive;font-size:38px;color:var(--rose);margin-top:10px}
+  .end small{color:var(--muted);font-size:13px;margin-top:24px}
+  .heart{font-size:30px;animation:beat 1.6s infinite}
+  @keyframes beat{0%,100%{transform:scale(1)}15%{transform:scale(1.2)}30%{transform:scale(1)}45%{transform:scale(1.15)}}
+</style>
+</head>
+<body>
+<main>
+  <section class="intro">
+    <div class="mono">Mi<span>♥</span>Ne</div>
+    <p>Mimi, je ne te demande rien.</p>
+    <p>Prends tout le temps qu'il te faut.</p>
+    <p>Je voulais juste te rappeler tout ce qu'on a déjà traversé, toi et moi.</p>
+    <div class="scroll">Descends doucement ↓</div>
+  </section>
+
+  <section class="chap">
+    <div class="num">Souvenir 1</div>
+    <h2>Le début</h2>
+    <div class="vid"><video src="v/1.mp4" poster="v/1.jpg" playsinline preload="metadata"></video><div class="play"><span></span></div></div>
+    <p class="cap">Là où tout a commencé.</p>
+  </section>
+
+  <section class="chap">
+    <div class="num">Souvenir 2</div>
+    <h2>Nos moments</h2>
+    <div class="vid"><video src="v/2.mp4" poster="v/2.jpg" playsinline preload="metadata"></video><div class="play"><span></span></div></div>
+    <p class="cap">Tous ces petits moments qui font un « nous ».</p>
+  </section>
+
+  <section class="chap">
+    <div class="num">Souvenir 3</div>
+    <h2>Ce que je ressens</h2>
+    <div class="vid"><video src="v/3.mp4" poster="v/3.jpg" playsinline preload="metadata"></video><div class="play"><span></span></div></div>
+    <p class="cap">Et ça n'a jamais changé.</p>
+  </section>
+
+  <section class="chap">
+    <div class="num">Souvenir 4</div>
+    <h2>Nous</h2>
+    <div class="vid"><video src="v/4.mp4" poster="v/4.jpg" playsinline preload="metadata"></video><div class="play"><span></span></div></div>
+    <p class="cap">Les kilomètres n'ont jamais eu le dernier mot.</p>
+  </section>
+
+  <section class="chap">
+    <div class="num">Souvenir 5</div>
+    <h2>Et la suite</h2>
+    <div class="vid"><video src="v/5.mp4" poster="v/5.jpg" playsinline preload="metadata"></video><div class="play"><span></span></div></div>
+    <p class="cap">Il nous reste encore tellement à vivre.</p>
+  </section>
+
+  <section class="end chap">
+    <div class="heart">❤️</div>
+    <p>On a traversé tellement de choses ensemble.<br>Ce n'est pas un appel raté qui va nous définir.</p>
+    <p>Je ne vais pas insister.<br>Je t'attends, simplement.</p>
+    <div class="sign">Eldine</div>
+    <small>Quand tu seras prête, je serai là.</small>
+  </section>
+</main>
+<script>
+const vids=[...document.querySelectorAll('video')];
+document.querySelectorAll('.vid').forEach(w=>{
+  const v=w.querySelector('video'),p=w.querySelector('.play');
+  p.addEventListener('click',()=>{vids.forEach(o=>{if(o!==v)o.pause()});v.controls=true;v.play().catch(()=>{});p.classList.add('off')});
+  v.addEventListener('ended',()=>{
+    const i=vids.indexOf(v);if(i<vids.length-1){
+      const n=vids[i+1];n.closest('.chap').scrollIntoView({behavior:'smooth',block:'center'});
+    }
+  });
+  v.addEventListener('pause',()=>{});
+});
+const io=new IntersectionObserver(es=>es.forEach(e=>{
+  if(e.isIntersecting)e.target.classList.add('vis');
+  else{const v=e.target.querySelector('video');if(v&&!v.paused)v.pause()}
+}),{threshold:.15});
+document.querySelectorAll('.chap').forEach(c=>io.observe(c));
+</script>
+</body>
+</html>
