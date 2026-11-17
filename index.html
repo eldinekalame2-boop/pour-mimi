@@ -119,7 +119,7 @@
       <button class="btn main" id="send">M'envoyer ta question</button>
       <button class="btn ghost" id="copy">Copier le texte</button>
       <div class="toast" id="toast"></div>
-      <p class="addr">Si le bouton ne s'ouvre pas, envoie-la-moi à <code>eldine.kalame1@gmail.com</code> ou par message 💬</p>
+      <p class="addr">Si le bouton ne s'ouvre pas, envoie-la-moi à <code>eldine.kalame2@gmail.com</code> ou par message 💬</p>
       <button class="btn ghost" data-go="3">Plus tard — voir la suite</button>
     </div>
   </section>
@@ -162,7 +162,9 @@
     <div class="end">
       <div class="big">Merci, mon cœur</div>
       <p>Je t'appelle ce soir.<br>Cette fois, je suis tout à toi.</p>
-      <p style="margin-top:22px;font-size:18px;color:#c9b3bf">N'oublie pas ton bon pour une soirée 😉</p>
+      <p style="margin-top:22px;font-size:18px;color:#c9b3bf">N'oublie pas ton bon pour un rendez-vous 😉</p>
+      <button class="btn light" style="max-width:300px;margin:26px auto 0" data-mail="yes">Me le dire par mail 💌</button>
+      <p style="font-size:14px;color:#a48a96;margin-top:10px;font-family:Inter">Si rien ne s'ouvre : eldine.kalame2@gmail.com</p>
     </div>
   </section>
 
@@ -172,7 +174,9 @@
       <div class="big">Je comprends</div>
       <p>Prends le temps qu'il te faut.<br>Je ne vais nulle part.</p>
       <p>Quand tu seras prête, je serai là —<br>bien réveillé, et à l'écoute pour de vrai.</p>
-      <button class="btn light" style="max-width:260px;margin:28px auto 0" data-go="0">Relire depuis le début</button>
+      <button class="btn light" style="max-width:300px;margin:28px auto 0" data-mail="time">Me le dire par mail 💌</button>
+      <p style="font-size:14px;color:#a48a96;margin-top:10px;font-family:Inter">Si rien ne s'ouvre : eldine.kalame2@gmail.com</p>
+      <button class="btn light" style="max-width:300px;margin:14px auto 0" data-go="0">Relire depuis le début</button>
     </div>
   </section>
 
@@ -195,12 +199,21 @@ document.getElementById('env').addEventListener('click',e=>{
   e.currentTarget.classList.add('open'); setTimeout(()=>show('s1'),900);
 });
 
+function mail(sub,body){
+  const a=document.createElement('a');
+  a.href='mailto:eldine.kalame2@gmail.com?subject='+encodeURIComponent(sub)+'&body='+encodeURIComponent(body);
+  a.target='_blank';a.rel='noopener';document.body.appendChild(a);a.click();a.remove();
+}
+const MSG_YES=['Je te pardonne ❤️','Je te pardonne ❤️\n\n'];
+const MSG_TIME=["J'ai encore besoin d'un peu de temps","J'ai encore besoin d'un peu de temps.\n\n"];
+document.querySelectorAll('[data-mail]').forEach(b=>b.addEventListener('click',()=>{
+  const m=b.dataset.mail==='yes'?MSG_YES:MSG_TIME; mail(m[0],m[1]);
+}));
 const toast=m=>{const t=document.getElementById('toast');t.textContent=m;setTimeout(()=>t.textContent='',3500)};
 document.getElementById('send').addEventListener('click',()=>{
   const q=document.getElementById('q').value.trim();
   if(!q){toast('Écris d\'abord ta question 🙂');return}
-  const href='mailto:eldine.kalame1@gmail.com?subject='+encodeURIComponent('Ma question')+'&body='+encodeURIComponent(q);
-  const a=document.createElement('a');a.href=href;a.target='_blank';a.rel='noopener';document.body.appendChild(a);a.click();a.remove();
+  mail('Ma question',q);
   toast('Ta messagerie devrait s\'ouvrir. Sinon, copie le texte et envoie-le-moi.');
 });
 document.getElementById('copy').addEventListener('click',async()=>{
@@ -219,8 +232,8 @@ function hearts(n){
     document.body.appendChild(h);setTimeout(()=>h.remove(),8500);
   },i*120)}
 }
-document.getElementById('yes').addEventListener('click',()=>{show('s5a');hearts(40)});
-document.getElementById('time').addEventListener('click',()=>show('s5b'));
+document.getElementById('yes').addEventListener('click',()=>{show('s5a');hearts(40);mail(MSG_YES[0],MSG_YES[1])});
+document.getElementById('time').addEventListener('click',()=>{show('s5b');mail(MSG_TIME[0],MSG_TIME[1])});
 
 // étoiles
 const c=document.getElementById('stars'),x=c.getContext('2d');let st=[];
